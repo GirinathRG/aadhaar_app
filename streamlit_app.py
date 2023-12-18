@@ -1,7 +1,5 @@
 import streamlit as st
-print("Before import")
 from tensorflow.keras.models import load_model
-print("After import")
 from tensorflow.keras.preprocessing import image
 import numpy as np
 import cv2
