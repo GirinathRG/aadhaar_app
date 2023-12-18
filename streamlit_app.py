@@ -6,7 +6,7 @@ import cv2
 import os
 
 # Load your trained model
-model_path = r"C:\Users\Unknown\Desktop\Aadhaar Detection\models\aadhaar.h5"
+model_path = "C:\Users\Unknown\Desktop\Aadhaar Detection\models\aadhaar.h5"
 model = load_model(model_path)
 
 def predict_aadhaar(img_array):
