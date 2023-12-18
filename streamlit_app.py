@@ -6,17 +6,15 @@ import cv2
 import os
 
 # Load your trained model
-model = load_model(r'C:\Users\Unknown\Desktop\Aadhaar Detection\models\aadhaar.h5')
+model_path = "r'C:\Users\Unknown\Desktop\Aadhaar Detection\models\aadhaar.h5'"
+model = load_model(model_path)
 
-def predict_aadhaar(image_path):
-    # Load and preprocess the image
-    img = image.load_img(image_path, target_size=(128, 128))
-    img_array = image.img_to_array(img)
-    img_array = np.expand_dims(img_array, axis=0)
-    img_array /= 255.0  # Normalize the image
+def predict_aadhaar(img_array):
+    # Normalize the image
+    img_array /= 255.0
 
     # Make predictions
-    prediction = model.predict(img_array)
+    prediction = model.predict(np.expand_dims(img_array, axis=0))
 
     # Assuming your model has two classes (0: Not Aadhaar, 1: Aadhaar)
     predicted_class = np.argmax(prediction)
@@ -30,15 +28,15 @@ def main():
     uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
     if uploaded_file is not None:
-        image_path = "temp_image.jpg"
-        with open(image_path, "wb") as f:
-            f.write(uploaded_file.getvalue())
+        # Load and preprocess the uploaded image
+        img = image.load_img(uploaded_file, target_size=(128, 128))
+        img_array = image.img_to_array(img)
 
         # Display the uploaded image
-        st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
+        st.image(img, caption="Uploaded Image", use_column_width=True)
 
         # Make prediction
-        if predict_aadhaar(image_path):
+        if predict_aadhaar(img_array):
             st.success("This is an Aadhaar card!")
         else:
             st.warning("This is not an Aadhaar card.")
